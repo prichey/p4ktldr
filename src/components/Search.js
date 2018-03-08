@@ -12,9 +12,9 @@ const StyledSearchSection = styled.section``;
 const StyleSearchForm = styled.form`
   border-bottom: 3px solid ${props => (props.focus ? '#474748' : '#d1d3d4')};
   transition: border-color 150ms;
-  margin: 1em 0;
+  margin: 0.75em 0;
   position: relative;
-  font-size: 72px;
+  font-size: 36px;
   font-family: 'Volkhov', serif;
 
   &:after {
@@ -24,8 +24,17 @@ const StyleSearchForm = styled.form`
     right: 0;
     top: 50%;
     width: 15%;
-    max-width: 45px;
+    max-width: 30px;
     transform: translateY(-50%);
+  }
+
+  @media (min-width: 550px) {
+    margin: 1em 0 0.5em;
+    font-size: 72px;
+
+    &:after {
+      max-width: 45px;
+    }
   }
 `;
 
@@ -49,12 +58,13 @@ const StyledInput = styled.input`
   }
 `;
 
-const StyledInputText = styled.span`
+const StyledTextUnderline = styled.span`
   position: absolute;
   left: 0;
   bottom: -3px;
-  height: 3px;
+  height: 0;
   background-color: #ec2227;
+  border-bottom: 3px solid #ec2227;
   color: transparent;
   max-width: 100%;
 `;
@@ -78,6 +88,18 @@ class Search extends React.Component {
       focus: false,
       suggestions: []
     };
+  }
+
+  componentWillMount() {
+    getSuggestionsWithVal('wil')
+      .then(suggestions => {
+        this.setState({
+          suggestions: suggestions
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   handleInputChange(e) {
@@ -119,7 +141,7 @@ class Search extends React.Component {
           />
 
           {this.state.searchVal && (
-            <StyledInputText>{this.state.searchVal}</StyledInputText>
+            <StyledTextUnderline>{this.state.searchVal}</StyledTextUnderline>
           )}
         </StyleSearchForm>
 

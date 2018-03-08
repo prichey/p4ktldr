@@ -17,6 +17,7 @@ const StyledApp = styled.div`
   transform: translateY(-50%);
   position: relative;
   max-width: 800px;
+  padding: 0 20px;
   margin: 0 auto;
   height: 100%;
 `;
