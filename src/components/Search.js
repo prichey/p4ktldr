@@ -58,15 +58,24 @@ const StyledInput = styled.input`
   }
 `;
 
-const StyledTextUnderline = styled.span`
+const StyledTextUnderline = styled.div`
   position: absolute;
   left: 0;
-  bottom: -3px;
-  height: 0;
-  background-color: #ec2227;
-  border-bottom: 3px solid #ec2227;
-  color: transparent;
+  bottom: 0;
   max-width: 100%;
+  visibility: hidden;
+  height: 0;
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 3px;
+    background: #ec2227;
+    width: 100%;
+    visibility: visible;
+  }
 `;
 
 const getSuggestionsWithVal = val => {
@@ -91,15 +100,15 @@ class Search extends React.Component {
   }
 
   componentWillMount() {
-    getSuggestionsWithVal('wil')
-      .then(suggestions => {
-        this.setState({
-          suggestions: suggestions
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    // getSuggestionsWithVal('wil')
+    //   .then(suggestions => {
+    //     this.setState({
+    //       suggestions: suggestions
+    //     });
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   }
 
   handleInputChange(e) {
