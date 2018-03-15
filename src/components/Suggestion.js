@@ -34,7 +34,7 @@ class Suggestion extends React.Component {
         <StyledSuggestionLink
           to={{
             pathname: `/search/${suggestion.name}`,
-            state: { suggestion }
+            state: { artist: suggestion }
           }}>
           {unescape(suggestion.name)}
         </StyledSuggestionLink>

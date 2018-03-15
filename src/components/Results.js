@@ -1,30 +1,59 @@
 import React from 'react';
+import fetch from 'node-fetch';
+import styled from 'styled-components';
+
+const StyledResults = styled.div``;
 
 class Results extends React.Component {
-  constructor() {
-    super();
+  state = {
+    artist: null,
+    albums: null
+  };
 
-    this.state = {
-      search: null,
-      artist: null
-    };
+  componentWillMount() {
+    console.log('this.props will', this.props);
+    if (!this.props.location.state) return null;
+    this.setState({ ...this.props.location.state });
   }
 
   componentDidMount() {
+    console.log(this.state);
     if (!this.props.location.state) return;
 
-    this.setState({
-      search: { ...this.props.location.state.suggestion }
-    });
+    fetch(
+      `https://pitchfork.com/api/v2/entities/artists/${
+        this.props.location.state.artist.id
+      }/albumreviews/`
+    )
+      .then(res => {
+        return res.json();
+      })
+      .then(res => {
+        this.setState({
+          albums: res.results.list
+        });
+        console.log(res);
+      })
+      .catch(e => {
+        console.log(e);
+      });
   }
+
   render() {
     console.log(this.state);
 
-    const { search } = this.state;
+    const { artist, albums } = this.state;
 
-    if (!search) return null;
+    if (!artist) return null;
 
-    return <h2>{search.name}</h2>;
+    return (
+      <StyledResults>
+        <h2>{artist.name}</h2>
+        <ul>
+          {albums && albums.map((album, i) => <li key={i}>{album.title}</li>)}
+        </ul>
+      </StyledResults>
+    );
   }
 }
 
