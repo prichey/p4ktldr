@@ -8,7 +8,6 @@ import Header from './Header';
 import Main from './Main';
 
 const StyledAppWrap = styled.div`
-  overflow: hidden;
   height: 100vh;
 `;
 

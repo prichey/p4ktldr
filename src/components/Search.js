@@ -111,7 +111,7 @@ class Search extends React.Component {
     //   });
   }
 
-  handleInputChange(e) {
+  handleInputChange = e => {
     const val = e.target.value;
 
     this.setState({
@@ -127,22 +127,22 @@ class Search extends React.Component {
       .catch(err => {
         console.log(err);
       });
-  }
+  };
 
-  handleSubmit(e) {
+  handleSubmit = e => {
     e.preventDefault();
     console.log(`form submit: ${this.state.searchVal}`);
-  }
+  };
 
   render() {
     return (
       <StyledSearchSection>
         <StyleSearchForm
-          onSubmit={e => this.handleSubmit(e)}
+          onSubmit={this.handleSubmit}
           focus={this.state.focus === true}
           empty={this.state.searchVal.length === 0}>
           <StyledInput
-            onChange={e => this.handleInputChange(e)}
+            onChange={this.handleInputChange}
             onFocus={() => this.setState({ focus: true })}
             onBlur={() => this.setState({ focus: false })}
             value={this.state.searchVal}
