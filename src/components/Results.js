@@ -82,15 +82,24 @@ class Results extends React.Component {
     return (
       <StyledResults>
         <h2>{artist.name}</h2>
-        <ul>
-          {albums &&
-            albums.map((album, i) => (
-              <li key={i}>
-                <span>{`${album.name} (${album.year}): ${album.rating}`}</span>
-                {/* <img src={album.photo} alt={album.name} /> */}
-              </li>
-            ))}
-        </ul>
+        {!!albums ? (
+          albums.length > 0 ? (
+            <ul>
+              {albums.map((album, i) => (
+                <li key={i}>
+                  <span>{`${album.name} (${album.year}): ${
+                    album.rating
+                  }`}</span>
+                  {/* <img src={album.photo} alt={album.name} /> */}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No albums could be found.</p>
+          )
+        ) : (
+          <p>Loading...</p>
+        )}
       </StyledResults>
     );
   }
