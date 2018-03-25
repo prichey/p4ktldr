@@ -10,13 +10,18 @@ const StyledSuggestionList = styled.ul`
 
 class SuggestionList extends React.Component {
   render() {
-    console.log(this.props.suggestions);
+    const { suggestions, focusedElementIndex } = this.props;
 
-    const suggestions = this.props.suggestions.map(suggestion => (
-      <Suggestion suggestion={suggestion} key={suggestion.id} />
+    const suggestionListItems = suggestions.map((suggestion, i) => (
+      <Suggestion
+        suggestion={suggestion}
+        key={suggestion.id}
+        index={i}
+        focused={i === focusedElementIndex}
+      />
     ));
 
-    return <StyledSuggestionList>{suggestions}</StyledSuggestionList>;
+    return <StyledSuggestionList>{suggestionListItems}</StyledSuggestionList>;
   }
 }
 

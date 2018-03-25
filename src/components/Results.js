@@ -46,7 +46,7 @@ class Results extends React.Component {
   };
 
   componentWillMount() {
-    console.log('this.props will', this.props);
+    // console.log('this.props will', this.props);
     if (!this.props.location.state) return null;
     this.setState({ ...this.props.location.state });
   }

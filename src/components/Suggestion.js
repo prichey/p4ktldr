@@ -11,33 +11,44 @@ const StyledSuggestion = styled.li`
 
 const StyledSuggestionLink = styled(Link)`
   text-decoration: none;
-  color: inherit;
+  color: #474748;
 
   &:hover {
     color: #ec2227;
   }
 
   &:focus {
-    color: #ec2227;
     outline: none;
   }
 `;
 
+const StyledFocusedSuggestionLink = styled(StyledSuggestionLink)`
+  color: #ec2227;
+`;
+
 class Suggestion extends React.Component {
   render() {
-    const { suggestion } = this.props;
-
-    console.log(suggestion);
+    const { suggestion, focused } = this.props;
 
     return (
       <StyledSuggestion>
-        <StyledSuggestionLink
-          to={{
-            pathname: `/search/${suggestion.name}`,
-            state: { artist: suggestion }
-          }}>
-          {unescape(suggestion.name)}
-        </StyledSuggestionLink>
+        {focused ? (
+          <StyledFocusedSuggestionLink
+            to={{
+              pathname: `/search/${suggestion.name}`,
+              state: { artist: suggestion }
+            }}>
+            {unescape(suggestion.name)}
+          </StyledFocusedSuggestionLink>
+        ) : (
+          <StyledSuggestionLink
+            to={{
+              pathname: `/search/${suggestion.name}`,
+              state: { artist: suggestion }
+            }}>
+            {unescape(suggestion.name)}
+          </StyledSuggestionLink>
+        )}
       </StyledSuggestion>
     );
   }

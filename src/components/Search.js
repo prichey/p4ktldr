@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import fetch from 'node-fetch';
 import Promise from 'bluebird';
+import { withRouter } from 'react-router-dom';
 
 import SuggestionList from './SuggestionList';
 
@@ -89,30 +90,103 @@ const getSuggestionsWithVal = val => {
 };
 
 class Search extends React.Component {
-  constructor() {
-    super();
+  state = {
+    searchVal: '',
+    focus: false,
+    suggestions: [],
+    focusedElementIndex: null,
+    shiftDown: false
+  };
 
-    this.state = {
-      searchVal: '',
-      focus: false,
-      suggestions: []
-    };
-  }
+  incrementFocusedIndex = () => {
+    const { focusedElementIndex, suggestions } = this.state;
+    if (suggestions.length === 0) {
+      this.setState({
+        focusedElementIndex: null
+      });
+    } else if (
+      focusedElementIndex === null ||
+      focusedElementIndex >= suggestions.length - 1
+    ) {
+      this.setState({
+        focusedElementIndex: 0
+      });
+    } else {
+      this.setState({
+        focusedElementIndex: focusedElementIndex + 1
+      });
+    }
+  };
 
-  componentWillMount() {
-    // getSuggestionsWithVal('wil')
-    //   .then(suggestions => {
-    //     this.setState({
-    //       suggestions: suggestions
-    //     });
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-  }
+  decrementFocusedIndex = () => {
+    const { focusedElementIndex, suggestions } = this.state;
+
+    if (suggestions.length === 0) {
+      this.setState({
+        focusedElementIndex: null
+      });
+    } else if (focusedElementIndex === null || focusedElementIndex <= 0) {
+      this.setState({
+        focusedElementIndex: suggestions.length - 1
+      });
+    } else {
+      this.setState({
+        focusedElementIndex: focusedElementIndex - 1
+      });
+    }
+  };
+
+  handleKeyDown = e => {
+    switch (e.keyCode) {
+      case 9: // tab
+        e.preventDefault();
+        if (this.state.shiftDown === true) {
+          this.decrementFocusedIndex();
+        } else {
+          this.incrementFocusedIndex();
+        }
+        break;
+      case 40: // down arrow
+        e.preventDefault();
+        this.incrementFocusedIndex();
+        break;
+      case 38: // up arrow
+        e.preventDefault();
+        this.decrementFocusedIndex();
+        break;
+      case 16: // shift
+        this.setState({
+          shiftDown: true
+        });
+        break;
+      default:
+        return;
+    }
+  };
+
+  handleKeyUp = e => {
+    switch (e.keyCode) {
+      case 16: // shift
+        this.setState({
+          shiftDown: false
+        });
+        break;
+      default:
+        return;
+    }
+  };
 
   handleInputChange = e => {
     const val = e.target.value;
+
+    if (!val.trim().length) {
+      this.setState({
+        searchVal: '',
+        suggestions: []
+      });
+
+      return;
+    }
 
     this.setState({
       searchVal: val
@@ -121,7 +195,8 @@ class Search extends React.Component {
     getSuggestionsWithVal(val)
       .then(suggestions => {
         this.setState({
-          suggestions: suggestions
+          suggestions: suggestions,
+          focusedElementIndex: null
         });
       })
       .catch(err => {
@@ -130,36 +205,54 @@ class Search extends React.Component {
   };
 
   handleSubmit = e => {
+    const { suggestions, focusedElementIndex } = this.state;
+    const { history } = this.props;
+
     e.preventDefault();
-    console.log(`form submit: ${this.state.searchVal}`);
+
+    if (focusedElementIndex !== null) {
+      const selectedSuggestion = suggestions[focusedElementIndex];
+      console.log(selectedSuggestion);
+      console.log('submit!');
+      history.push(`/search/${selectedSuggestion.name}`, {
+        artist: selectedSuggestion
+      });
+    }
   };
 
   render() {
+    const { focus, searchVal, suggestions, focusedElementIndex } = this.state;
+
     return (
       <StyledSearchSection>
         <StyleSearchForm
           onSubmit={this.handleSubmit}
-          focus={this.state.focus === true}
-          empty={this.state.searchVal.length === 0}>
+          focus={focus === true}
+          empty={searchVal.length === 0}>
           <StyledInput
             onChange={this.handleInputChange}
             onFocus={() => this.setState({ focus: true })}
             onBlur={() => this.setState({ focus: false })}
-            value={this.state.searchVal}
+            onKeyDown={this.handleKeyDown}
+            onKeyUp={this.handleKeyUp}
+            value={searchVal}
             placeholder="Search Artists"
           />
 
-          {this.state.searchVal && (
-            <StyledTextUnderline>{this.state.searchVal}</StyledTextUnderline>
-          )}
+          {searchVal && <StyledTextUnderline>{searchVal}</StyledTextUnderline>}
         </StyleSearchForm>
 
-        {this.state.suggestions.length > 0 && (
-          <SuggestionList suggestions={this.state.suggestions} />
+        {suggestions.length > 0 && (
+          <SuggestionList
+            suggestions={suggestions}
+            incrementFocusedIndex={this.incrementFocusedIndex}
+            decrementFocusedIndex={this.decrementFocusedIndex}
+            focusedElementIndex={focusedElementIndex}
+          />
         )}
       </StyledSearchSection>
     );
   }
 }
 
-export default Search;
+export default withRouter(Search);
