@@ -6,6 +6,50 @@ import { round } from 'lodash';
 
 const StyledResults = styled.div``;
 
+const StyledResultsList = styled.ul`
+  padding: 0;
+`;
+
+const StyledResult = styled.li`
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 1em;
+`;
+
+const StyledAlbumArtWrap = styled.div`
+  width: 60px;
+
+  img {
+    width: 100%;
+  }
+`;
+
+const StyledRatingWrap = styled.div`
+  padding-left: 1em;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: space-around;
+
+  & > * {
+    margin-bottom: 0.5em;
+  }
+`;
+
+const StyledAlbumTitle = styled.span``;
+const StyledAlbumYear = styled.span`
+  &:before {
+    content: ' (';
+  }
+
+  &:after {
+    content: ')';
+  }
+`;
+const StyledAlbumRating = styled.span`
+  display: block;
+  color: #ec2227;
+`;
+
 function formatAlbumObj(albumObj) {
   return {
     name: albumObj.album.display_name,
@@ -79,21 +123,35 @@ class Results extends React.Component {
 
     if (!artist) return null;
 
+    // console.log(albums);
+
     return (
       <StyledResults>
         <h2>{artist.name}</h2>
         {!!albums ? (
           albums.length > 0 ? (
-            <ul>
+            <StyledResultsList>
               {albums.map((album, i) => (
-                <li key={i}>
-                  <span>{`${album.name} (${album.year}): ${
-                    album.rating
-                  }`}</span>
-                  {/* <img src={album.photo} alt={album.name} /> */}
-                </li>
+                <StyledResult key={i}>
+                  <StyledAlbumArtWrap>
+                    <img src={album.photo} alt={album.name} />
+                  </StyledAlbumArtWrap>
+
+                  <StyledRatingWrap>
+                    <div>
+                      <StyledAlbumTitle>{album.name}</StyledAlbumTitle>
+                      {album.year && (
+                        <StyledAlbumYear>{album.year}</StyledAlbumYear>
+                      )}
+                    </div>
+
+                    <div>
+                      <StyledAlbumRating>{album.rating}</StyledAlbumRating>
+                    </div>
+                  </StyledRatingWrap>
+                </StyledResult>
               ))}
-            </ul>
+            </StyledResultsList>
           ) : (
             <p>No albums could be found.</p>
           )

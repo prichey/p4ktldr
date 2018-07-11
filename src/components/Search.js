@@ -228,7 +228,8 @@ class Search extends React.Component {
         <StyleSearchForm
           onSubmit={this.handleSubmit}
           focus={focus === true}
-          empty={searchVal.length === 0}>
+          empty={searchVal.length === 0}
+        >
           <StyledInput
             onChange={this.handleInputChange}
             onFocus={() => this.setState({ focus: true })}
