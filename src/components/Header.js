@@ -25,7 +25,7 @@ class Header extends React.Component {
   render() {
     return (
       <StyledHeader>
-        <Link to="/">
+        <Link to="/" tabIndex={-1}>
           <StyledLogo src={logo} alt="p4ktldr logo" />
         </Link>
       </StyledHeader>

@@ -238,6 +238,7 @@ class Search extends React.Component {
             onKeyUp={this.handleKeyUp}
             value={searchVal}
             placeholder="Search Artists"
+            tabIndex={0}
           />
 
           {searchVal && <StyledTextUnderline>{searchVal}</StyledTextUnderline>}
