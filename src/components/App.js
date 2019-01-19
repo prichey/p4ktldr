@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet';
 
 import Header from './Header';
 import Main from './Main';
+import Footer from './Footer';
 
 const StyledAppWrap = styled.div`
   height: 100vh;
@@ -34,7 +35,7 @@ class App extends React.Component {
 
           <Header />
           <Main />
-          <footer />
+          <Footer />
         </StyledApp>
       </StyledAppWrap>
     );

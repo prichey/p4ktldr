@@ -22,5 +22,14 @@ export default () => {
     html, body {
       height: 100%;
     }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    p a {
+      color: #ec2227
+    }
   `;
 };

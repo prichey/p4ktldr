@@ -8,7 +8,9 @@ import SuggestionList from './SuggestionList';
 
 import search from './../img/search.svg';
 
-const StyledSearchSection = styled.section``;
+const StyledSearchSection = styled.section`
+  // min-height: 400px;
+`;
 
 const StyleSearchForm = styled.form`
   border-bottom: 3px solid ${props => (props.focus ? '#474748' : '#d1d3d4')};

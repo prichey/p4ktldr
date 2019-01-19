@@ -4,7 +4,13 @@ import styled from 'styled-components';
 
 import { round } from 'lodash';
 
-const StyledResults = styled.div``;
+const StyledResults = styled.div`
+  margin-bottom: 20px;
+
+  @media (min-width: 550px) {
+    margin-bottom: 50px;
+  }
+`;
 
 const StyledResultsList = styled.ul`
   padding: 0;
@@ -14,10 +20,28 @@ const StyledResult = styled.li`
   display: flex;
   justify-content: flex-start;
   margin-bottom: 1em;
+  font-size: 14px;
+
+  @media (min-width: 550px) {
+    font-size: 18px;
+  }
+`;
+
+const StyledArtistHeading = styled.h2`
+  font-size: 18px;
+
+  @media (min-width: 550px) {
+    font-size: 32px;
+  }
 `;
 
 const StyledAlbumArtWrap = styled.div`
-  width: 60px;
+  width: 40px;
+  flex-shrink: 0;
+
+  @media (min-width: 550px) {
+    width: 60px;
+  }
 
   img {
     width: 100%;
@@ -127,7 +151,7 @@ class Results extends React.Component {
 
     return (
       <StyledResults>
-        <h2>{artist.name}</h2>
+        <StyledArtistHeading>{artist.name}</StyledArtistHeading>
         {!!albums ? (
           albums.length > 0 ? (
             <StyledResultsList>
