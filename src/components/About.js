@@ -25,7 +25,6 @@ const About = () => {
         >
           Pitchfork
         </a>{' '}
-        +{' '}
         <a
           target="_blank"
           rel="noopener noreferrer"

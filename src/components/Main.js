@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import Search from './Search';
 import Results from './Results';
@@ -9,9 +9,12 @@ class Main extends React.Component {
   render() {
     return (
       <main>
-        <Route exact path="/" component={Search} />
-        <Route path="/search/:foo" component={Results} />
-        <Route path="/about" component={About} />
+        <Switch>
+          <Route exact path="/" component={Search} />
+          <Route path="/search/:artist" component={Results} />
+          <Route path="/about" component={About} />
+          <Redirect to="/" />
+        </Switch>
       </main>
     );
   }

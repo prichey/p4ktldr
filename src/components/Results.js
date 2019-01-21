@@ -1,8 +1,12 @@
 import React from 'react';
-import fetch from 'node-fetch';
 import styled from 'styled-components';
-
+import LazyLoad from 'react-lazy-load';
 import { round } from 'lodash';
+import { withRouter } from 'react-router-dom';
+
+import SearchForm from './SearchForm';
+
+import { getAlbumsByArtistId, getArtist } from './../utils/api';
 
 const StyledResults = styled.div`
   margin-bottom: 20px;
@@ -27,17 +31,18 @@ const StyledResult = styled.li`
   }
 `;
 
-const StyledArtistHeading = styled.h2`
-  font-size: 18px;
-
-  @media (min-width: 550px) {
-    font-size: 32px;
-  }
-`;
+// const StyledArtistHeading = styled.h2`
+//   font-size: 18px;
+//
+//   @media (min-width: 550px) {
+//     font-size: 32px;
+//   }
+// `;
 
 const StyledAlbumArtWrap = styled.div`
   width: 40px;
   flex-shrink: 0;
+  font-size: 12px;
 
   @media (min-width: 550px) {
     width: 60px;
@@ -107,58 +112,78 @@ function formatAlbumList(list) {
   return albums;
 }
 
+const getArtistFromProps = async props => {
+  const { location, match } = props;
+
+  if (location && location.state && location.state.artist)
+    return location.state.artist;
+
+  if (match && match.params.artist) return getArtist(match.params.artist);
+
+  return null;
+};
+
+const getSortedAlbumsByArtistId = async id => {
+  const albums = await getAlbumsByArtistId(id);
+  return formatAlbumList(albums).sort((a, b) => b.rating - a.rating);
+};
+
+const getArtistAndAlbumsFromProps = async props => {
+  try {
+    const artist = await getArtistFromProps(props);
+    const albums = await getSortedAlbumsByArtistId(artist.id);
+    return { artist, albums };
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 class Results extends React.Component {
   state = {
     artist: null,
     albums: null
   };
 
-  componentWillMount() {
-    // console.log('this.props will', this.props);
-    if (!this.props.location.state) return null;
-    this.setState({ ...this.props.location.state });
-  }
+  handleInputFocus = e => {
+    const { history } = this.props;
+
+    // const pushObj = {
+    //   searchVal: this.state.artist.name
+    // };
+
+    // history.push('/', pushObj);
+    history.push('/');
+  };
 
   componentDidMount() {
-    if (!this.props.location.state) return;
-
-    fetch(
-      `https://pitchfork.com/api/v2/entities/artists/${
-        this.props.location.state.artist.id
-      }/albumreviews/?size=100&start=0`
-    )
-      .then(res => {
-        return res.json();
-      })
-      .then(res => {
-        this.setState({
-          albums: formatAlbumList(res.results.list).sort(
-            (a, b) => b.rating - a.rating
-          )
-        });
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    getArtistAndAlbumsFromProps(this.props).then(res => {
+      this.setState(res);
+    });
   }
 
   render() {
     const { artist, albums } = this.state;
 
-    if (!artist) return null;
-
-    // console.log(albums);
+    if (!artist) {
+      return null;
+    }
 
     return (
       <StyledResults>
-        <StyledArtistHeading>{artist.name}</StyledArtistHeading>
+        <SearchForm
+          redirectOnFocus={true}
+          searchVal={artist.name}
+          handleFocus={this.handleInputFocus}
+        />
         {!!albums ? (
           albums.length > 0 ? (
             <StyledResultsList>
               {albums.map((album, i) => (
                 <StyledResult key={i}>
                   <StyledAlbumArtWrap>
-                    <img src={album.photo} alt={album.name} />
+                    <LazyLoad height={60}>
+                      <img src={album.photo} alt={album.name} />
+                    </LazyLoad>
                   </StyledAlbumArtWrap>
 
                   <StyledRatingWrap>
@@ -187,4 +212,4 @@ class Results extends React.Component {
   }
 }
 
-export default Results;
+export default withRouter(Results);
