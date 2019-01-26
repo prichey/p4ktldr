@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link, withRouter } from 'react-router-dom';
+import { Location, Link } from '@reach/router';
 
 const StyledFooter = styled.footer`
   text-align: right;
@@ -13,18 +13,20 @@ const StyledFooter = styled.footer`
 
 class Footer extends React.Component {
   render() {
-    const isAboutPage = this.props.location.pathname === '/about';
-
     return (
-      <StyledFooter>
-        {isAboutPage ? (
-          <Link to="/">Back</Link>
-        ) : (
-          <Link to="/about">About</Link>
+      <Location>
+        {({ location }) => (
+          <StyledFooter>
+            {location.pathname === '/about' ? (
+              <Link to="/">Back</Link>
+            ) : (
+              <Link to="/about">About</Link>
+            )}
+          </StyledFooter>
         )}
-      </StyledFooter>
+      </Location>
     );
   }
 }
 
-export default withRouter(Footer);
+export default Footer;

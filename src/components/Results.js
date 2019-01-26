@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import LazyLoad from 'react-lazy-load';
 import { round } from 'lodash';
-import { withRouter } from 'react-router-dom';
+import { navigate } from '@reach/router';
 
 import SearchForm from './SearchForm';
 
@@ -145,14 +145,15 @@ class Results extends React.Component {
   };
 
   handleInputFocus = e => {
-    const { history } = this.props;
+    // const { history } = this.props;
 
     // const pushObj = {
     //   searchVal: this.state.artist.name
     // };
 
     // history.push('/', pushObj);
-    history.push('/');
+    // history.push('/');
+    navigate('/');
   };
 
   componentDidMount() {
@@ -212,4 +213,4 @@ class Results extends React.Component {
   }
 }
 
-export default withRouter(Results);
+export default Results;

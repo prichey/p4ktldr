@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Router, Redirect } from '@reach/router';
 
 import Search from './Search';
 import Results from './Results';
@@ -9,12 +9,12 @@ class Main extends React.Component {
   render() {
     return (
       <main>
-        <Switch>
-          <Route exact path="/" component={Search} />
-          <Route path="/search/:artist" component={Results} />
-          <Route path="/about" component={About} />
-          <Redirect to="/" />
-        </Switch>
+        <Router>
+          <Search path="/" />
+          <Results path="/search/:artist" />
+          <About path="/about" />
+          <Redirect default noThrow from="*" to="/" />
+        </Router>
       </main>
     );
   }

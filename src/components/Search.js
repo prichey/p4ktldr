@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
+import { navigate } from '@reach/router';
 
 import SuggestionList from './SuggestionList';
 import SearchForm from './SearchForm';
@@ -131,25 +131,26 @@ class Search extends React.Component {
 
   handleSubmit = e => {
     const { suggestions, focusedElementIndex } = this.state;
-    const { history } = this.props;
+    // const { history } = this.props;
 
     e.preventDefault();
 
     if (focusedElementIndex !== null) {
       const selectedSuggestion = suggestions[focusedElementIndex];
-      history.push(`/search/${selectedSuggestion.name}`, {
-        artist: selectedSuggestion
-      });
+      // history.push(`/search/${selectedSuggestion.name}`, {
+      //   artist: selectedSuggestion
+      // });
+      navigate(`/search/${selectedSuggestion.name}`);
     }
   };
 
-  static getDerivedStateFromProps(props, state) {
-    if (state.searchVal === '' && props.location && props.location.state) {
-      return props.location.state;
-    }
-
-    return null;
-  }
+  // static getDerivedStateFromProps(props, state) {
+  //   if (state.searchVal === '' && props.location && props.location.state) {
+  //     return props.location.state;
+  //   }
+  //
+  //   return null;
+  // }
 
   render() {
     const { searchVal, suggestions, focusedElementIndex } = this.state;
@@ -180,4 +181,4 @@ class Search extends React.Component {
   }
 }
 
-export default withRouter(Search);
+export default Search;

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link } from '@reach/router';
 
 import { unescape } from 'lodash';
 
@@ -34,18 +34,16 @@ class Suggestion extends React.Component {
       <StyledSuggestion>
         {focused ? (
           <StyledFocusedSuggestionLink
-            to={{
-              pathname: `/search/${suggestion.name}`,
-              state: { artist: suggestion }
-            }}>
+            to={`/search/${suggestion.name}`}
+            state={{ artist: suggestion }}
+          >
             {unescape(suggestion.name)}
           </StyledFocusedSuggestionLink>
         ) : (
           <StyledSuggestionLink
-            to={{
-              pathname: `/search/${suggestion.name}`,
-              state: { artist: suggestion }
-            }}>
+            to={`/search/${suggestion.name}`}
+            state={{ artist: suggestion }}
+          >
             {unescape(suggestion.name)}
           </StyledSuggestionLink>
         )}
