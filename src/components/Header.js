@@ -22,10 +22,11 @@ const StyledLogo = styled.img`
 `;
 
 class Header extends React.Component {
+  // <Link to="/" tabIndex={-1}>
   render() {
     return (
       <StyledHeader>
-        <Link to="/" tabIndex={-1}>
+        <Link to="/" state={{ reset: true }}>
           <StyledLogo src={logo} alt="p4ktldr logo" />
         </Link>
       </StyledHeader>

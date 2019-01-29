@@ -26,6 +26,16 @@ export default () => {
     a {
       text-decoration: none;
       color: inherit;
+      outline: none;
+
+      &:focus {
+        color: #ec2227;
+      }
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
     }
 
     p a {

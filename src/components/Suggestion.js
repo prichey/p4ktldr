@@ -18,38 +18,25 @@ const StyledSuggestionLink = styled(Link)`
   }
 
   &:focus {
+    color: #ec2227;
     outline: none;
   }
 `;
 
-const StyledFocusedSuggestionLink = styled(StyledSuggestionLink)`
-  color: #ec2227;
-`;
-
-class Suggestion extends React.Component {
-  render() {
-    const { suggestion, focused } = this.props;
-
-    return (
-      <StyledSuggestion>
-        {focused ? (
-          <StyledFocusedSuggestionLink
-            to={`/search/${suggestion.name}`}
-            state={{ artist: suggestion }}
-          >
-            {unescape(suggestion.name)}
-          </StyledFocusedSuggestionLink>
-        ) : (
-          <StyledSuggestionLink
-            to={`/search/${suggestion.name}`}
-            state={{ artist: suggestion }}
-          >
-            {unescape(suggestion.name)}
-          </StyledSuggestionLink>
-        )}
-      </StyledSuggestion>
-    );
-  }
-}
+const Suggestion = ({ suggestion, setArtist, setSearchVal }) => {
+  return (
+    <StyledSuggestion>
+      <StyledSuggestionLink
+        to={`/search/${suggestion.name}`}
+        onClick={() => {
+          setArtist(suggestion);
+          setSearchVal(suggestion.name);
+        }}
+      >
+        {unescape(suggestion.name)}
+      </StyledSuggestionLink>
+    </StyledSuggestion>
+  );
+};
 
 export default Suggestion;

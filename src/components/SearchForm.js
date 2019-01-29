@@ -37,6 +37,7 @@ const StyledInput = styled.input`
   border: none;
   line-height: 1.5em;
   color: #474748;
+  text-overflow: ellipsis;
 
   &:focus {
     outline: none;
@@ -72,32 +73,24 @@ const StyledTextUnderline = styled.div`
   }
 `;
 
-const SearchForm = props => {
+const SearchForm = ({
+  handleSubmit,
+  searchVal,
+  handleInputChange,
+  handleInputFocus,
+  handleInputBlur,
+  inputRef
+}) => {
   const [focus, setFocus] = useState(false);
-
-  const {
-    handleSubmit,
-    searchVal,
-    handleInputChange,
-    handleKeyUp,
-    handleKeyDown,
-    redirectOnFocus,
-    inputRef
-  } = props;
 
   const handleFocus = () => {
     setFocus(true);
-
-    if (props.handleFocus) {
-      props.handleFocus();
-    }
+    handleInputFocus && handleInputFocus();
   };
 
   const handleBlur = () => {
     setFocus(false);
-    if (props.handleBlur) {
-      props.handleBlur();
-    }
+    handleInputBlur && handleInputBlur();
   };
 
   return (
@@ -106,27 +99,14 @@ const SearchForm = props => {
       focus={focus}
       empty={searchVal.length === 0}
     >
-      {redirectOnFocus ? (
-        <StyledInput
-          onFocus={handleFocus}
-          onChange={e => e.preventDefault()}
-          value={searchVal}
-          placeholder="Search Artists"
-          tabIndex={0}
-        />
-      ) : (
-        <StyledInput
-          onChange={handleInputChange}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          onKeyDown={handleKeyDown}
-          onKeyUp={handleKeyUp}
-          value={searchVal}
-          placeholder="Search Artists"
-          tabIndex={0}
-          ref={inputRef}
-        />
-      )}
+      <StyledInput
+        onChange={handleInputChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        value={searchVal}
+        placeholder="Search Artists"
+        ref={inputRef}
+      />
 
       {searchVal && <StyledTextUnderline>{searchVal}</StyledTextUnderline>}
     </StyleSearchForm>
