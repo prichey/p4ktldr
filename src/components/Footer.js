@@ -11,22 +11,20 @@ const StyledFooter = styled.footer`
   }
 `;
 
-class Footer extends React.Component {
-  render() {
-    return (
-      <Location>
-        {({ location }) => (
-          <StyledFooter>
-            {location.pathname === '/about' ? (
-              <Link to="/">Back</Link>
-            ) : (
-              <Link to="/about">About</Link>
-            )}
-          </StyledFooter>
-        )}
-      </Location>
-    );
-  }
-}
+const Footer = () => {
+  return (
+    <Location>
+      {({ location }) => (
+        <StyledFooter>
+          {location.pathname === '/about' ? (
+            <Link to="/">Back</Link>
+          ) : (
+            <Link to="/about">About</Link>
+          )}
+        </StyledFooter>
+      )}
+    </Location>
+  );
+};
 
 export default Footer;

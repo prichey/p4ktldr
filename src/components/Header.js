@@ -21,17 +21,14 @@ const StyledLogo = styled.img`
   }
 `;
 
-class Header extends React.Component {
-  // <Link to="/" tabIndex={-1}>
-  render() {
-    return (
-      <StyledHeader>
-        <Link to="/" state={{ reset: true }}>
-          <StyledLogo src={logo} alt="p4ktldr logo" />
-        </Link>
-      </StyledHeader>
-    );
-  }
-}
+const Header = () => {
+  return (
+    <StyledHeader>
+      <Link to="/" state={{ reset: true }}>
+        <StyledLogo src={logo} alt="p4ktldr logo" />
+      </Link>
+    </StyledHeader>
+  );
+};
 
 export default Header;

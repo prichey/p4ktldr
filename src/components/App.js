@@ -22,25 +22,23 @@ const StyledApp = styled.div`
   height: 100%;
 `;
 
-class App extends React.Component {
-  render() {
-    return (
-      <Fragment>
-        <GlobalStyle />
-        <StyledAppWrap>
-          <StyledApp>
-            <Helmet>
-              <title>p4ktldr</title>
-            </Helmet>
+const App = () => {
+  return (
+    <Fragment>
+      <GlobalStyle />
+      <StyledAppWrap>
+        <StyledApp>
+          <Helmet>
+            <title>p4ktldr</title>
+          </Helmet>
 
-            <Header />
-            <Main />
-            <Footer />
-          </StyledApp>
-        </StyledAppWrap>
-      </Fragment>
-    );
-  }
-}
+          <Header />
+          <Main />
+          <Footer />
+        </StyledApp>
+      </StyledAppWrap>
+    </Fragment>
+  );
+};
 
 export default App;
