@@ -1,9 +1,9 @@
-import React from 'react';
-import baseStyles from './../utils/base-styles';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
 
 import { Helmet } from 'react-helmet';
 
+import GlobalStyle from './GlobalStyle';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -24,20 +24,21 @@ const StyledApp = styled.div`
 
 class App extends React.Component {
   render() {
-    baseStyles();
-
     return (
-      <StyledAppWrap>
-        <StyledApp>
-          <Helmet>
-            <title>p4ktldr</title>
-          </Helmet>
+      <Fragment>
+        <GlobalStyle />
+        <StyledAppWrap>
+          <StyledApp>
+            <Helmet>
+              <title>p4ktldr</title>
+            </Helmet>
 
-          <Header />
-          <Main />
-          <Footer />
-        </StyledApp>
-      </StyledAppWrap>
+            <Header />
+            <Main />
+            <Footer />
+          </StyledApp>
+        </StyledAppWrap>
+      </Fragment>
     );
   }
 }
