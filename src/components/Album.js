@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const StyledResult = styled.li`
   display: flex;
   justify-content: flex-start;
-  margin-bottom: 1em;
+  margin-bottom: 1.5em;
   font-size: 14px;
 
   @media (min-width: 550px) {
