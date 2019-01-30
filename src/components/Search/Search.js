@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Router, Redirect, navigate } from '@reach/router';
 
-import Results from './Results';
-import SearchForm from './SearchForm';
-import Suggestions from './Suggestions';
+import Results from '../Results';
+import SearchForm from '../SearchForm';
+import Suggestions from '../Suggestions';
 
-import { getSuggestionsWithVal } from './../utils/api';
+import { getArtist, getSuggestionsWithVal } from './api';
+import { getSortedAlbumsByArtistId } from './utils';
 
 const StyledSearchSection = styled.section`
   // min-height: 400px;
@@ -16,17 +17,21 @@ const initialState = {
   searchVal: '',
   suggestions: [],
   artist: null,
-  fetching: false
+  fetching: false,
+  albums: []
 };
 
-const Search = props => {
+const Search = ({ location }) => {
   const [searchVal, setSearchVal] = useState(initialState.searchVal);
   const [artist, setArtist] = useState(initialState.artist);
   const [suggestions, setSuggestions] = useState(initialState.suggestions);
-  const [fetching, setFetching] = useState(initialState.fetching);
-  const inputRef = useRef();
+  const [albums, setAlbums] = useState(initialState.albums);
+  const [artistFetching, setArtistFetching] = useState(initialState.fetching);
+  const [suggestionsFetching, setSuggestionsFetching] = useState(
+    initialState.fetching
+  );
 
-  const { location } = props;
+  const inputRef = useRef();
 
   const handleFormSubmit = e => {
     e.preventDefault();
@@ -38,19 +43,30 @@ const Search = props => {
       const suggestion = suggestions[0];
       navigate(`/search/${suggestion.name}`);
       setArtist(suggestion);
-      console.log({ inputRef });
-      try {
-        inputRef.current.blur();
-      } catch (err) {
-        console.log('cant blur', err);
-      }
+      inputRef.current && inputRef.current.blur();
     }
+  };
+
+  const resetState = () => {
+    setSearchVal(initialState.searchVal);
+    setArtist(initialState.artist);
+    setSuggestions(initialState.suggestions);
+    setAlbums(initialState.albums);
+    setArtistFetching(initialState.fetching);
+    setSuggestionsFetching(initialState.fetching);
   };
 
   useEffect(
     () => {
       if (artist) {
         setSearchVal(artist.name);
+
+        setArtistFetching(true);
+        getSortedAlbumsByArtistId(artist.id)
+          .then(albums => {
+            setAlbums(albums);
+          })
+          .finally(() => setArtistFetching(false));
       }
     },
     [artist]
@@ -59,8 +75,7 @@ const Search = props => {
   useEffect(
     () => {
       if (location.state && location.state.reset) {
-        setSearchVal(initialState.searchVal);
-        setArtist(initialState.artist);
+        resetState();
       }
     },
     [location]
@@ -68,20 +83,30 @@ const Search = props => {
 
   useEffect(
     () => {
+      if (searchVal === '') {
+        setArtist(initialState.artist);
+        setSuggestions(initialState.suggestions);
+
+        return;
+      }
+
       if (location.pathname !== '/') {
-        navigate('/');
+        setArtistFetching(true);
+        getArtist(searchVal)
+          .then(setArtist)
+          .finally(() => setArtistFetching(false));
       }
 
       // wait before setting fetching
       const timeout = setTimeout(() => {
-        setFetching(true);
+        setSuggestionsFetching(true);
       }, 500);
 
       getSuggestionsWithVal(searchVal)
         .then(setSuggestions)
         .finally(() => {
           clearTimeout(timeout);
-          setFetching(false);
+          setSuggestionsFetching(false);
         });
     },
     [searchVal]
@@ -94,6 +119,7 @@ const Search = props => {
         handleSubmit={handleFormSubmit}
         handleInputChange={e => setSearchVal(e.target.value)}
         handleInputFocus={() => navigate('/')}
+        resetSearchState={resetState}
         inputRef={inputRef}
       />
 
@@ -104,12 +130,14 @@ const Search = props => {
           searchVal={searchVal}
           setArtist={setArtist}
           setSearchVal={setSearchVal}
-          fetching={fetching}
+          fetching={suggestionsFetching}
         />
         <Results
           path="/search/:searchArtist"
-          artist={artist}
+          fetching={artistFetching}
           setArtist={setArtist}
+          setSearchVal={setSearchVal}
+          albums={albums}
         />
         <Redirect default noThrow from="*" to="/" />
       </Router>

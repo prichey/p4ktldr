@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import LazyLoad from 'react-lazy-load';
 
 const StyledResult = styled.li`
   display: flex;
@@ -13,7 +12,7 @@ const StyledResult = styled.li`
   }
 `;
 
-const StyledAlbumArtWrap = styled.div`
+const StyledAlbumArtWrap = styled.a`
   width: 40px;
   flex-shrink: 0;
   font-size: 12px;
@@ -27,18 +26,20 @@ const StyledAlbumArtWrap = styled.div`
   }
 `;
 
-const StyledRatingWrap = styled.div`
+const StyledAlbumInfoWrap = styled.div`
   padding-left: 1em;
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: space-around;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 
-  & > * {
+  /* & > * {
     margin-bottom: 0.5em;
-  }
+  } */
 `;
 
-const StyledAlbumTitle = styled.span``;
+const StyledRatingWrap = styled.div``;
+
+const StyledAlbumTitle = styled.a``;
 const StyledAlbumYear = styled.span`
   &:before {
     content: ' (';
@@ -49,29 +50,29 @@ const StyledAlbumYear = styled.span`
   }
 `;
 const StyledAlbumRating = styled.span`
-  display: block;
+  /* display: block; */
   color: #ec2227;
 `;
 
 const Album = ({ album }) => {
   return (
     <StyledResult>
-      <StyledAlbumArtWrap>
-        <LazyLoad height={60}>
-          <img src={album.photo} alt={album.name} />
-        </LazyLoad>
+      <StyledAlbumArtWrap href={album.url} target="_blank">
+        <img src={album.photo} alt={album.name} />
       </StyledAlbumArtWrap>
 
-      <StyledRatingWrap>
+      <StyledAlbumInfoWrap>
         <div>
-          <StyledAlbumTitle>{album.name}</StyledAlbumTitle>
+          <StyledAlbumTitle href={album.url} target="_blank">
+            {album.name}
+          </StyledAlbumTitle>
           {album.year && <StyledAlbumYear>{album.year}</StyledAlbumYear>}
         </div>
 
-        <div>
+        <StyledRatingWrap>
           <StyledAlbumRating>{album.rating}</StyledAlbumRating>
-        </div>
-      </StyledRatingWrap>
+        </StyledRatingWrap>
+      </StyledAlbumInfoWrap>
     </StyledResult>
   );
 };

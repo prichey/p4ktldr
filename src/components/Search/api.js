@@ -24,9 +24,8 @@ export const getSuggestionsWithVal = async val => {
     `https://pitchfork.com/api/v2/search/_ac/?query=${val}`
   )
     .then(res => res.json())
-    .then(json => {
-      return json.artists;
-    });
+    .then(json => json.artists || [])
+    .catch(err => []);
 
   await store.suggestions.setItem(val, result);
   return result;
@@ -42,7 +41,8 @@ export const getAlbumsByArtistId = async (id, count = 100, start = 0) => {
     `https://pitchfork.com/api/v2/entities/artists/${id}/albumreviews/?size=${count}&start=${0}`
   )
     .then(res => res.json())
-    .then(res => res.results.list);
+    .then(res => res.results.list || [])
+    .catch(err => []);
 
   await store.albums.setItem(hashKey, result);
   return result;

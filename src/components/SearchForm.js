@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { unescape } from 'lodash';
 
 import search from './../img/search.svg';
+import close from './../img/close.svg';
 
 const StyleSearchForm = styled.form`
   border-bottom: 3px solid ${props => (props.focus ? '#474748' : '#d1d3d4')};
@@ -11,7 +13,7 @@ const StyleSearchForm = styled.form`
   font-size: 36px;
   font-family: 'Volkhov', serif;
 
-  &:after {
+  /* &:after {
     display: ${props => (props.focus || !props.empty ? 'none' : 'block')};
     content: url(${search});
     position: absolute;
@@ -20,7 +22,7 @@ const StyleSearchForm = styled.form`
     width: 15%;
     max-width: 30px;
     transform: translateY(-50%);
-  }
+  } */
 
   @media (min-width: 550px) {
     margin: 1em 0 0.5em;
@@ -73,15 +75,40 @@ const StyledTextUnderline = styled.div`
   }
 `;
 
+const StyledCloseButton = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 15%;
+  max-width: 30px;
+
+  &:after {
+    display: block;
+    content: url(${close});
+    width: 100%;
+    height: 100%;
+    margin-top: 5px;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 const SearchForm = ({
   handleSubmit,
   searchVal,
   handleInputChange,
   handleInputFocus,
   handleInputBlur,
-  inputRef
+  inputRef,
+  resetSearchState
 }) => {
   const [focus, setFocus] = useState(false);
+
+  const displayVal = unescape(searchVal);
 
   const handleFocus = () => {
     setFocus(true);
@@ -97,18 +124,20 @@ const SearchForm = ({
     <StyleSearchForm
       onSubmit={handleSubmit}
       focus={focus}
-      empty={searchVal.length === 0}
+      empty={displayVal.length === 0}
     >
       <StyledInput
         onChange={handleInputChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        value={searchVal}
+        value={displayVal}
         placeholder="Search Artists"
         ref={inputRef}
       />
 
-      {searchVal && <StyledTextUnderline>{searchVal}</StyledTextUnderline>}
+      {searchVal && !focus && <StyledCloseButton onClick={resetSearchState} />}
+
+      {searchVal && <StyledTextUnderline>{displayVal}</StyledTextUnderline>}
     </StyleSearchForm>
   );
 };

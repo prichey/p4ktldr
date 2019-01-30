@@ -27,7 +27,7 @@ const Suggestion = ({ suggestion, setArtist, setSearchVal }) => {
   return (
     <StyledSuggestion>
       <StyledSuggestionLink
-        to={`/search/${suggestion.name}`}
+        to={`/search/${encodeURIComponent(suggestion.name)}`}
         onClick={() => {
           setArtist(suggestion);
           setSearchVal(suggestion.name);

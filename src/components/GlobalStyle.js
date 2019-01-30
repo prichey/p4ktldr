@@ -30,6 +30,10 @@ const GlobalStyle = createGlobalStyle`
     &:focus {
       color: #ec2227;
     }
+
+    &:hover {
+      color: #ec2227;
+    }
   }
 
   ul {
