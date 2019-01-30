@@ -52,7 +52,7 @@ const StyledAlbumYear = styled.span`
 `;
 const StyledAlbumRating = styled.span`
   /* display: block; */
-  color: #ec2227;
+  color: ${props => (props.bestNew ? '#ec2227' : 'inherit')};
 `;
 
 const Album = ({ album }) => {
@@ -71,7 +71,9 @@ const Album = ({ album }) => {
         </div>
 
         <StyledRatingWrap>
-          <StyledAlbumRating>{album.rating}</StyledAlbumRating>
+          <StyledAlbumRating bestNew={album.bestNew}>
+            {album.rating}
+          </StyledAlbumRating>
         </StyledRatingWrap>
       </StyledAlbumInfoWrap>
     </StyledResult>

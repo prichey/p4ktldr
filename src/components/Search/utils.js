@@ -14,6 +14,7 @@ const formatAlbumObj = (albumObj, url) => {
         ? 10
         : round(albumObj.rating.display_rating, 1).toFixed(1),
     year: albumObj.labels_and_years[0].year,
+    bestNew: albumObj.rating.bnm || albumObj.rating.bnr,
     photo:
       albumObj.album.photos.tout.sizes.list ||
       albumObj.album.photos.tout.sizes.homepageLarge ||
