@@ -4,11 +4,12 @@ import styled from 'styled-components';
 const StyledResult = styled.li`
   display: flex;
   justify-content: flex-start;
-  margin-bottom: 1.5em;
+  margin-bottom: 1em;
   font-size: 14px;
 
   @media (min-width: 550px) {
     font-size: 18px;
+    margin-bottom: 1.5em;
   }
 `;
 
