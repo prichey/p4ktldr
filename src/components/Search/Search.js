@@ -118,8 +118,11 @@ const Search = ({ location }) => {
         searchVal={searchVal}
         handleSubmit={handleFormSubmit}
         handleInputChange={e => setSearchVal(e.target.value)}
-        handleInputFocus={() => navigate('/')}
-        resetSearchState={resetState}
+        handleInputFocus={() => location.path !== '/' && navigate('/')}
+        resetSearchState={() => {
+          location.path !== '/' && navigate('/');
+          resetState();
+        }}
         inputRef={inputRef}
       />
 
