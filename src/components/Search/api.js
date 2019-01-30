@@ -17,8 +17,7 @@ export const getSuggestionsWithVal = async val => {
   if (val.length === 0) return [];
 
   const cacheHit = await store.suggestions.getItem(val);
-
-  if (cacheHit) return cacheHit;
+  if (!!cacheHit) return cacheHit;
 
   const result = await fetch(
     `https://pitchfork.com/api/v2/search/_ac/?query=${val}`
@@ -33,9 +32,9 @@ export const getSuggestionsWithVal = async val => {
 
 export const getAlbumsByArtistId = async (id, count = 100, start = 0) => {
   const hashKey = JSON.stringify(id, count, start);
-  const cacheHit = await store.albums.getItem(hashKey);
 
-  if (cacheHit) return cacheHit;
+  const cacheHit = await store.albums.getItem(hashKey);
+  if (!!cacheHit) return cacheHit;
 
   const result = await fetch(
     `https://pitchfork.com/api/v2/entities/artists/${id}/albumreviews/?size=${count}&start=${0}`
@@ -50,8 +49,7 @@ export const getAlbumsByArtistId = async (id, count = 100, start = 0) => {
 
 export const getArtist = async artistName => {
   const cacheHit = await store.artists.getItem(artistName);
-
-  if (cacheHit) return cacheHit;
+  if (!!cacheHit) return cacheHit;
 
   const suggestions = await getSuggestionsWithVal(artistName).then(
     allSuggestions => allSuggestions.filter(artist => artist.id)
