@@ -17,22 +17,6 @@ const StyledAboutCopy = styled.div`
 const About = () => {
   return (
     <StyledAboutSection>
-      <h1>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://pitchfork.com/"
-        >
-          Pitchfork
-        </a>{' '}
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://en.wikipedia.org/wiki/TL;DR"
-        >
-          TL;DR
-        </a>
-      </h1>
       <StyledAboutCopy>
         <p>
           p4ktldr was made by{' '}

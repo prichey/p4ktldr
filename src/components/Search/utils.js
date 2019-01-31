@@ -1,8 +1,7 @@
 import { round } from 'lodash';
+import * as urlJoin from 'url-join';
 
 import { getAlbumsByArtistId } from './api';
-
-import * as urlJoin from 'url-join';
 
 const urlBase = 'https://pitchfork.com/';
 
