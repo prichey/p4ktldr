@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 
 import { Helmet } from 'react-helmet';
 
@@ -22,22 +22,30 @@ const StyledApp = styled.div`
   height: 100%;
 `;
 
+const theme = {
+  dark: '#474748',
+  light: '#d1d3d4',
+  accent: '#ec2227'
+};
+
 const App = () => {
   return (
-    <Fragment>
-      <GlobalStyle />
-      <StyledAppWrap>
-        <StyledApp>
-          <Helmet>
-            <title>p4ktldr</title>
-          </Helmet>
+    <ThemeProvider theme={theme}>
+      <Fragment>
+        <GlobalStyle />
+        <StyledAppWrap>
+          <StyledApp>
+            <Helmet>
+              <title>p4ktldr</title>
+            </Helmet>
 
-          <Header />
-          <Main />
-          <Footer />
-        </StyledApp>
-      </StyledAppWrap>
-    </Fragment>
+            <Header />
+            <Main />
+            <Footer />
+          </StyledApp>
+        </StyledAppWrap>
+      </Fragment>
+    </ThemeProvider>
   );
 };
 

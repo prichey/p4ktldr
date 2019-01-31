@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: 'Poppins', sans-serif;
-    color: #474748;
+    color: ${props => props.theme.dark};
   }
 
   html, body {
@@ -28,11 +28,11 @@ const GlobalStyle = createGlobalStyle`
     outline: none;
 
     &:focus {
-      color: #ec2227;
+      color: ${props => props.theme.accent};
     }
 
     &:hover {
-      color: #ec2227;
+      color: ${props => props.theme.accent};
     }
   }
 
@@ -42,7 +42,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   p a {
-    color: #ec2227
+    color: ${props => props.theme.accent};
   }
 `;
 

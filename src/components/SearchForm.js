@@ -6,14 +6,15 @@ import search from './../img/search.svg';
 import close from './../img/close.svg';
 
 const StyleSearchForm = styled.form`
-  border-bottom: 3px solid ${props => (props.focus ? '#474748' : '#d1d3d4')};
+  border-bottom: 3px solid
+    ${props => (props.focus ? props.theme.dark : props.theme.light)};
   transition: border-color 150ms;
   margin: 0.75em 0;
   position: relative;
   font-size: 36px;
   font-family: 'Volkhov', serif;
 
-  /* &:after {
+  &:after {
     display: ${props => (props.focus || !props.empty ? 'none' : 'block')};
     content: url(${search});
     position: absolute;
@@ -22,7 +23,7 @@ const StyleSearchForm = styled.form`
     width: 15%;
     max-width: 30px;
     transform: translateY(-50%);
-  } */
+  }
 
   @media (min-width: 550px) {
     margin: 1em 0 0.5em;
@@ -35,15 +36,18 @@ const StyleSearchForm = styled.form`
 `;
 
 const StyledInput = styled.input`
-  width: 100%;
+  width: calc(100% - 30px);
+  padding-right: 1em;
   border: none;
   line-height: 1.5em;
-  color: #474748;
+  color: ${props => props.theme.dark};
   text-overflow: ellipsis;
 
   &:focus {
     outline: none;
-    border-color: #474748;
+    border-color: ${props => props.theme.dark};
+    width: 100%;
+    padding-right: 0;
 
     &::placeholder {
       visibility: hidden;
@@ -51,7 +55,7 @@ const StyledInput = styled.input`
   }
 
   &::placeholder {
-    color: #d1d3d4;
+    color: ${props => props.theme.light};
   }
 `;
 
@@ -69,7 +73,7 @@ const StyledTextUnderline = styled.div`
     left: 0;
     top: 0;
     height: 3px;
-    background: #ec2227;
+    background: ${props => props.theme.accent};
     width: 100%;
     visibility: visible;
   }

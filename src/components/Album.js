@@ -52,7 +52,7 @@ const StyledAlbumYear = styled.span`
 `;
 const StyledAlbumRating = styled.span`
   /* display: block; */
-  color: ${props => (props.bestNew ? '#ec2227' : 'inherit')};
+  color: ${props => (props.bestNew ? props.theme.accent : 'inherit')};
 `;
 
 const Album = ({ album }) => {

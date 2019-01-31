@@ -11,14 +11,14 @@ const StyledSuggestion = styled.li`
 
 const StyledSuggestionLink = styled(Link)`
   text-decoration: none;
-  color: #474748;
+  color: ${props => props.theme.dark};
 
   &:hover {
-    color: #ec2227;
+    color: ${props => props.theme.accent};
   }
 
   &:focus {
-    color: #ec2227;
+    color: ${props => props.theme.accent};
     outline: none;
   }
 `;
