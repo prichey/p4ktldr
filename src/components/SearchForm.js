@@ -9,7 +9,6 @@ const StyleSearchForm = styled.form`
   border-bottom: 3px solid
     ${props => (props.focus ? props.theme.dark : props.theme.light)};
   transition: border-color 150ms;
-  margin: 0.75em 0;
   position: relative;
   font-size: 36px;
   font-family: 'Volkhov', serif;
@@ -26,7 +25,6 @@ const StyleSearchForm = styled.form`
   }
 
   @media (min-width: 550px) {
-    margin: 1em 0 0.5em;
     font-size: 72px;
 
     &:after {

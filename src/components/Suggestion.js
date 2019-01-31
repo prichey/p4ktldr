@@ -7,6 +7,10 @@ import { unescape } from 'lodash';
 const StyledSuggestion = styled.li`
   margin-bottom: 0.5em;
   font-size: 18px;
+
+  @media (min-width: 550px) {
+    font-size: 20px;
+  }
 `;
 
 const StyledSuggestionLink = styled(Link)`

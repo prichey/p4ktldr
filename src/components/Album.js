@@ -8,7 +8,7 @@ const StyledResult = styled.li`
   font-size: 14px;
 
   @media (min-width: 550px) {
-    font-size: 18px;
+    font-size: 20px;
     margin-bottom: 1.5em;
   }
 `;
@@ -32,10 +32,6 @@ const StyledAlbumInfoWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-
-  /* & > * {
-    margin-bottom: 0.5em;
-  } */
 `;
 
 const StyledRatingWrap = styled.div``;
@@ -51,7 +47,6 @@ const StyledAlbumYear = styled.span`
   }
 `;
 const StyledAlbumRating = styled.span`
-  /* display: block; */
   color: ${props => (props.bestNew ? props.theme.accent : 'inherit')};
 `;
 

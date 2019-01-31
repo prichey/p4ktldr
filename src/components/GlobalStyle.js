@@ -16,6 +16,11 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Poppins', sans-serif;
     color: ${props => props.theme.dark};
+    font-size: 18px;
+
+    @media (min-width: 550px) {
+      font-size: 20px;
+    }
   }
 
   html, body {

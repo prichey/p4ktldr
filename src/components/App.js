@@ -20,6 +20,12 @@ const StyledApp = styled.div`
   padding: 0 20px;
   margin: 0 auto;
   height: 100%;
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const theme = {

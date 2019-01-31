@@ -10,8 +10,11 @@ const StyledAboutSection = styled.section`
 `;
 
 const StyledAboutCopy = styled.div`
-  font-size: 18px;
   line-height: 1.5em;
+
+  @media (min-width: 550px) {
+    margin-bottom: 24px;
+  }
 `;
 
 const About = () => {
@@ -26,8 +29,10 @@ const About = () => {
             href="https://prestonrichey.com/"
           >
             Preston Richey
-          </a>{' '}
-          and designed by{' '}
+          </a>.
+        </p>
+        <p>
+          p4ktldr was designed by{' '}
           <a
             target="_blank"
             rel="noopener noreferrer"

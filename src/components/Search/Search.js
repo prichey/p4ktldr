@@ -9,8 +9,14 @@ import Suggestions from '../Suggestions';
 import { getArtist, getSuggestionsWithVal } from './api';
 import { getSortedAlbumsByArtistId } from './utils';
 
-const StyledSearchSection = styled.section`
-  // min-height: 400px;
+const StyledSearchSection = styled.section``;
+
+const StyledSearchLower = styled.div`
+  margin-top: 20px;
+
+  @media (min-width: 550px) {
+    margin-top: 40px;
+  }
 `;
 
 const initialState = {
@@ -126,24 +132,26 @@ const Search = ({ location }) => {
         inputRef={inputRef}
       />
 
-      <Router primary={false}>
-        <Suggestions
-          path="/"
-          suggestions={suggestions}
-          searchVal={searchVal}
-          setArtist={setArtist}
-          setSearchVal={setSearchVal}
-          fetching={suggestionsFetching}
-        />
-        <Results
-          path="/search/:searchArtist"
-          fetching={artistFetching}
-          setArtist={setArtist}
-          setSearchVal={setSearchVal}
-          albums={albums}
-        />
-        <Redirect default noThrow from="*" to="/" />
-      </Router>
+      <StyledSearchLower>
+        <Router primary={false}>
+          <Suggestions
+            path="/"
+            suggestions={suggestions}
+            searchVal={searchVal}
+            setArtist={setArtist}
+            setSearchVal={setSearchVal}
+            fetching={suggestionsFetching}
+          />
+          <Results
+            path="/search/:searchArtist"
+            fetching={artistFetching}
+            setArtist={setArtist}
+            setSearchVal={setSearchVal}
+            albums={albums}
+          />
+          <Redirect default noThrow from="*" to="/" />
+        </Router>
+      </StyledSearchLower>
     </StyledSearchSection>
   );
 };
