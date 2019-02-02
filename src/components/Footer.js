@@ -6,7 +6,7 @@ const StyledFooter = styled.footer`
   width: 100%;
   text-align: right;
   padding-top: 5px;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   flex-grow: 0;
   border-top: 3px solid ${props => props.theme.color.dark};
 `;
