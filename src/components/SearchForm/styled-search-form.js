@@ -34,7 +34,7 @@ export const StyleSearchForm = styled.form`
 
 export const StyledInput = styled.input`
   width: calc(100% - 30px);
-  padding-right: 1em;
+  padding: 0 1em 0 0;
   border: none;
   line-height: 1.5em;
   color: ${props => props.theme.color.dark};
@@ -83,7 +83,11 @@ export const StyledCloseButton = styled.div`
   bottom: 0;
   height: 100%;
   width: 15%;
-  max-width: 30px;
+  max-width: 20px;
+
+  @media (min-width: ${props => props.theme.bp.mobile}) {
+    max-width: 30px;
+  }
 
   &:after {
     display: block;

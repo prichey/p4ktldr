@@ -6,9 +6,13 @@ const StyledFooter = styled.footer`
   width: 100%;
   text-align: right;
   padding-top: 5px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   flex-grow: 0;
   border-top: 3px solid ${props => props.theme.color.dark};
+
+  @media (min-width: ${props => props.theme.bp.mobile}) {
+    margin-bottom: 30px;
+  }
 `;
 
 const Footer = () => {
