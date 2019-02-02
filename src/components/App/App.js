@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { Router } from '@reach/router';
-import { Helmet } from 'react-helmet';
 
 import GlobalStyle from '../GlobalStyle';
 import Header from '../Header';
@@ -30,10 +29,6 @@ const App = () => {
         <GlobalStyle />
         <StyledAppWrap>
           <StyledApp>
-            <Helmet>
-              <title>p4ktldr</title>
-            </Helmet>
-
             <Header />
             <StyledMain>
               <Router>

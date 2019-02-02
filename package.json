@@ -9,7 +9,6 @@
     "node-fetch": "^2.3.0",
     "react": "16.8.0-alpha.1",
     "react-dom": "16.8.0-alpha.1",
-    "react-helmet": "^5.2.0",
     "react-scripts": "1.1.1",
     "styled-components": "^4.0.0",
     "styled-normalize": "^4.0.0",
