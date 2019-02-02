@@ -5,14 +5,10 @@ import { Location, Link } from '@reach/router';
 const StyledFooter = styled.footer`
   width: 100%;
   text-align: right;
-  padding-bottom: 15px;
-  padding-top: 0.5em;
+  padding-top: 5px;
+  margin-bottom: 40px;
   flex-grow: 0;
-  border-top: 3px solid ${props => props.theme.dark};
-
-  @media (min-width: 550px) {
-    padding-bottom: 30px;
-  }
+  border-top: 3px solid ${props => props.theme.color.dark};
 `;
 
 const Footer = () => {

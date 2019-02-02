@@ -9,16 +9,17 @@ const GlobalStyle = createGlobalStyle`
   html {
     box-sizing: border-box;
   }
+
   *, *:before, *:after {
     box-sizing: inherit;
   }
 
   body {
     font-family: 'Poppins', sans-serif;
-    color: ${props => props.theme.dark};
+    color: ${props => props.theme.color.dark};
     font-size: 18px;
 
-    @media (min-width: 550px) {
+    @media (min-width: ${props => props.theme.bp.mobile}) {
       font-size: 20px;
     }
   }
@@ -33,11 +34,11 @@ const GlobalStyle = createGlobalStyle`
     outline: none;
 
     &:focus {
-      color: ${props => props.theme.accent};
+      color: ${props => props.theme.color.accent};
     }
 
     &:hover {
-      color: ${props => props.theme.accent};
+      color: ${props => props.theme.color.accent};
     }
   }
 
@@ -46,8 +47,12 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
   }
 
+  p {
+    word-wrap: break-word;
+  }
+
   p a {
-    color: ${props => props.theme.accent};
+    color: ${props => props.theme.color.accent};
   }
 `;
 

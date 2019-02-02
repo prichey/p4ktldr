@@ -9,13 +9,17 @@ import Suggestions from '../Suggestions';
 import { getArtist, getSuggestionsWithVal } from './api';
 import { getSortedAlbumsByArtistId } from './utils';
 
-const StyledSearchSection = styled.section``;
-
 const StyledSearchLower = styled.div`
-  margin-top: 20px;
+  margin: 20px 0;
 
-  @media (min-width: 550px) {
+  @media (min-width: ${props => props.theme.bp.mobile}) {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  @media (min-width: ${props => props.theme.bp.big}) {
     margin-top: 40px;
+    margin-bottom: 40px;
   }
 `;
 
@@ -119,7 +123,7 @@ const Search = ({ location }) => {
   );
 
   return (
-    <StyledSearchSection>
+    <div>
       <SearchForm
         searchVal={searchVal}
         handleSubmit={handleFormSubmit}
@@ -152,7 +156,7 @@ const Search = ({ location }) => {
           <Redirect default noThrow from="*" to="/" />
         </Router>
       </StyledSearchLower>
-    </StyledSearchSection>
+    </div>
   );
 };
 
