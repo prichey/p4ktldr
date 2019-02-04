@@ -22,9 +22,9 @@ export const StyledApp = styled.div`
 export const StyledMain = styled.main`
   width: 100%;
   flex-grow: 1;
-  margin-top: 20px;
+  margin-top: 30px;
 
   @media (min-width: ${props => props.theme.bp.mobile}) {
-    margin-top: 40px;
+    margin-top: 60px;
   }
 `;

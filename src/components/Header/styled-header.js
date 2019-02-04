@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const StyledHeader = styled.header`
   width: 100%;
   text-align: center;
-  padding-top: 40px;
+  padding-top: 60px;
   flex-grow: 0;
 
   @media (min-width: ${props => props.theme.bp.mobile}) {
