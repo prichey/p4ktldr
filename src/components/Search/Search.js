@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Router, Redirect, navigate } from '@reach/router';
+import ReactGA from 'react-ga';
 
 import Results from '../Results';
 import SearchForm from '../SearchForm';
@@ -84,9 +85,13 @@ const Search = ({ location }) => {
 
   useEffect(
     () => {
+      if (!location) return;
+
       if (location.state && location.state.reset) {
         resetState();
       }
+
+      ReactGA.pageview(location.pathname);
     },
     [location]
   );

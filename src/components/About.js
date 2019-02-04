@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import ReactGA from 'react-ga';
 
 const StyledAboutSection = styled.section`
   line-height: 1.5em;
 `;
 
 const About = () => {
+  ReactGA.pageview('/about');
+
   return (
     <StyledAboutSection>
       <p>
