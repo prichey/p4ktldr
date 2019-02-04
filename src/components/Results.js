@@ -17,7 +17,7 @@ const Results = ({ fetching, albums, setSearchVal, searchArtist }) => {
       ) : albums && albums.length > 0 ? (
         <ul>{albums.map((album, i) => <Album album={album} key={i} />)}</ul>
       ) : (
-        <p>No albums could be found.</p>
+        <p>No reviews could be found.</p>
       )}
     </Fragment>
   );
