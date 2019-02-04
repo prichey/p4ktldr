@@ -11,13 +11,17 @@ import {
 const Album = ({ album }) => {
   return (
     <StyledResult>
-      <StyledAlbumArtWrap href={album.url} target="_blank">
+      <StyledAlbumArtWrap
+        href={album.url}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         <img src={album.photo} alt={album.name} />
       </StyledAlbumArtWrap>
 
       <StyledAlbumInfoWrap>
         <div>
-          <a href={album.url} target="_blank">
+          <a href={album.url} rel="noopener noreferrer" target="_blank">
             {album.name}
           </a>
           {album.year && <StyledAlbumYear>{album.year}</StyledAlbumYear>}
