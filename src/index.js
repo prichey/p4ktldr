@@ -4,7 +4,7 @@ import ReactGA from 'react-ga';
 
 import App from './components/App';
 
-// import registerServiceWorker from './registerServiceWorker';
+import registerServiceWorker from './registerServiceWorker';
 
 ReactGA.initialize('UA-133684082-1');
 
