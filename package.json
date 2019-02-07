@@ -5,6 +5,7 @@
   "homepage": ".",
   "dependencies": {
     "@reach/router": "^1.2.1",
+    "http-proxy-middleware": "^0.19.1",
     "localforage": "^1.7.3",
     "lodash": "^4.17.5",
     "node-fetch": "^2.3.0",
