@@ -20,6 +20,7 @@ export const getSuggestionsWithVal = async val => {
   if (!!cacheHit) return cacheHit;
 
   // const url = `https://pitchfork.com/api/v2/search/_ac/?query=${val}`;
+
   const url = `/api/hello?query=${val}`;
   const result = await fetch(url)
     .then(res => res.json())
