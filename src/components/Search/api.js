@@ -19,10 +19,8 @@ export const getSuggestionsWithVal = async val => {
   const cacheHit = await store.suggestions.getItem(val);
   if (!!cacheHit) return cacheHit;
 
-  // const url = `https://pitchfork.com/api/v2/search/_ac/?query=${val}`;
-
-  const url = `/api/hello?query=${val}`;
-  const result = await fetch(url)
+  // `https://pitchfork.com/api/v2/search/_ac/?query=${val}`
+  const result = await fetch(`/.netlify/functions/suggestions?query=${val}`)
     .then(res => res.json())
     .then(json => json.artists || [])
     .catch(err => []);
@@ -31,15 +29,14 @@ export const getSuggestionsWithVal = async val => {
   return result;
 };
 
-export const getAlbumsByArtistId = async (id, count = 100, start = 0) => {
-  const hashKey = JSON.stringify(id, count, start);
+export const getAlbumsByArtistId = async id => {
+  const hashKey = JSON.stringify(id);
 
   const cacheHit = await store.albums.getItem(hashKey);
   if (!!cacheHit) return cacheHit;
 
-  const result = await fetch(
-    `https://pitchfork.com/api/v2/entities/artists/${id}/albumreviews/?size=${count}&start=${0}`
-  )
+  // `https://pitchfork.com/api/v2/entities/artists/${id}/albumreviews/?size=100&start=0`
+  const result = await fetch(`/.netlify/functions/albums?id=${id}`)
     .then(res => res.json())
     .then(res => res.results.list || [])
     .catch(err => []);
