@@ -1,0 +1,8 @@
+[[redirects]]
+  from = "/api/*"
+  to = "https://5bp27dtqzi.execute-api.us-east-1.amazonaws.com/dev/:splat"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
