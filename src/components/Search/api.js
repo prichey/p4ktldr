@@ -1,23 +1,27 @@
 import fetch from 'node-fetch';
 import * as lf from 'localforage';
 
+import { hitIsNotTroll } from './utils';
+
 const store = {
   suggestions: lf.createInstance({
     name: 'suggestions'
   }),
   albums: lf.createInstance({
     name: 'albums'
-  }),
-  artists: lf.createInstance({
-    name: 'artists'
   })
 };
 
 export const getSuggestionsWithVal = async val => {
-  if (val.length === 0) return [];
+  if (!val) return [];
 
   const cacheHit = await store.suggestions.getItem(val);
-  if (!!cacheHit) return cacheHit;
+  if (cacheHit && cacheHit.length) {
+    if (hitIsNotTroll(cacheHit)) return cacheHit;
+
+    // hit is troll, unset
+    await store.suggestions.removeItem(val);
+  }
 
   // `https://pitchfork.com/api/v2/search/_ac/?query=${val}`
   const result = await fetch(`/.netlify/functions/suggestions?query=${val}`)
@@ -25,15 +29,23 @@ export const getSuggestionsWithVal = async val => {
     .then(json => json.artists || [])
     .catch(err => []);
 
-  await store.suggestions.setItem(val, result);
+  if (!!result && result.length) {
+    await store.suggestions.setItem(val, result);
+  }
+
   return result;
 };
 
 export const getAlbumsByArtistId = async id => {
-  const hashKey = JSON.stringify(id);
+  if (!id) return [];
 
-  const cacheHit = await store.albums.getItem(hashKey);
-  if (!!cacheHit) return cacheHit;
+  const cacheHit = await store.albums.getItem(id);
+  if (cacheHit && cacheHit.length) {
+    if (hitIsNotTroll(cacheHit)) return cacheHit;
+
+    // hit is troll, unset
+    await store.albums.removeItem(id);
+  }
 
   // `https://pitchfork.com/api/v2/entities/artists/${id}/albumreviews/?size=100&start=0`
   const result = await fetch(`/.netlify/functions/albums?id=${id}`)
@@ -41,20 +53,17 @@ export const getAlbumsByArtistId = async id => {
     .then(res => res.results.list || [])
     .catch(err => []);
 
-  await store.albums.setItem(hashKey, result);
+  if (!!result && result.length) {
+    await store.albums.setItem(id, result);
+  }
+
   return result;
 };
 
 export const getArtist = async artistName => {
-  const cacheHit = await store.artists.getItem(artistName);
-  if (!!cacheHit) return cacheHit;
-
   const suggestions = await getSuggestionsWithVal(artistName).then(
     allSuggestions => allSuggestions.filter(artist => artist.id)
   );
 
-  const result = suggestions.length ? suggestions[0] : null;
-
-  await store.artists.setItem(artistName, result);
-  return result;
+  return suggestions.length ? suggestions[0] : null;
 };

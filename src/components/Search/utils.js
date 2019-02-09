@@ -3,7 +3,14 @@ import * as urlJoin from 'url-join';
 
 import { getAlbumsByArtistId } from './api';
 
-const urlBase = 'https://pitchfork.com/';
+const bandIsJet = band => 'name' in band && band.name === 'Jet';
+const albumIsShineOn = album => 'title' in album && album.title === 'Shine On';
+
+export const hitIsNotTroll = ([hit, ...rest]) => {
+  // troll responses only have length 1
+  if (rest.length) return true;
+  return !(bandIsJet || albumIsShineOn);
+};
 
 const formatAlbumObj = (albumObj, url) => {
   return {
@@ -18,7 +25,7 @@ const formatAlbumObj = (albumObj, url) => {
       albumObj.album.photos.tout.sizes.list ||
       albumObj.album.photos.tout.sizes.homepageLarge ||
       albumObj.album.photos.tout.sizes.standard,
-    url: urlJoin(urlBase, url)
+    url: urlJoin('https://pitchfork.com/', url)
   };
 };
 
