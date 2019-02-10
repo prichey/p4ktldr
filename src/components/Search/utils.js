@@ -7,7 +7,7 @@ const bandIsJet = band => 'name' in band && band.name === 'Jet';
 const albumIsShineOn = album => 'title' in album && album.title === 'Shine On';
 
 export const hitIsNotTroll = ([hit, ...rest]) => {
-  if (rest.length) return true; // troll responses only have length 1
+  if (rest.length) return true; // troll responses have length 1
   return !(bandIsJet || albumIsShineOn);
 };
 

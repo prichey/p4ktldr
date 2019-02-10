@@ -12,6 +12,16 @@ const About = () => {
   return (
     <StyledAboutSection>
       <p>
+        p4ktldr{' '}
+        <a
+          href="https://prestonrichey.com/blog/i-got-got/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          got got
+        </a>.
+      </p>
+      <p>
         p4ktldr was made by{' '}
         <a
           target="_blank"
