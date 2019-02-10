@@ -3,11 +3,11 @@ import * as urlJoin from 'url-join';
 
 import { getAlbumsByArtistId } from './api';
 
-const bandIsJet = band => 'name' in band && band.name === 'Jet';
-const albumIsShineOn = album => 'title' in album && album.title === 'Shine On';
-
 export const hitIsNotTroll = ([hit, ...rest]) => {
   if (rest.length) return true; // troll responses have length 1
+
+  const bandIsJet = 'name' in hit && hit.name === 'Jet';
+  const albumIsShineOn = 'title' in hit && hit.title === 'Shine On';
   return !(bandIsJet || albumIsShineOn);
 };
 
