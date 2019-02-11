@@ -22,7 +22,7 @@
     "start": "run-p start:**",
     "start:app": "react-scripts start",
     "start:lambda": "netlify-lambda serve src/lambda",
-    "build": "npm run build:lambda && npm run build:app",
+    "build": "npm run build:app && npm run build:lambda",
     "build:app": "react-scripts build",
     "build:lambda": "netlify-lambda build src/lambda",
     "test": "react-scripts test",
