@@ -14,7 +14,7 @@ const About = () => {
       <p>
         p4ktldr{' '}
         <a
-          href="https://prestonrichey.com/blog/i-got-got/"
+          href="https://prestonrichey.com/blog/pitchfork-proxies-jet/"
           target="_blank"
           rel="noopener noreferrer"
         >
