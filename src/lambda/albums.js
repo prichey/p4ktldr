@@ -1,6 +1,6 @@
 import { makeRequest } from './util';
 
-export async function handler(event, context) {
+export async function handler(event) {
   const { queryStringParameters } = event;
 
   if (!(!!queryStringParameters && 'id' in queryStringParameters)) {
@@ -13,8 +13,6 @@ export async function handler(event, context) {
   const { id } = queryStringParameters;
 
   return makeRequest(
-    event,
-    context,
     `https://pitchfork.com/api/v2/entities/artists/${id}/albumreviews/?size=100&start=0`
   );
 }

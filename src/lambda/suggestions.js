@@ -1,6 +1,6 @@
 import { makeRequest } from './util';
 
-export async function handler(event, context) {
+export async function handler(event) {
   const { queryStringParameters } = event;
 
   if (!(!!queryStringParameters && 'query' in queryStringParameters)) {
@@ -12,9 +12,5 @@ export async function handler(event, context) {
 
   const { query } = queryStringParameters;
 
-  return makeRequest(
-    event,
-    context,
-    `https://pitchfork.com/api/v2/search/_ac/?query=${query}`
-  );
+  return makeRequest(`https://pitchfork.com/api/v2/search/_ac/?query=${query}`);
 }
