@@ -1,6 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Suggestion from './Suggestion';
+
+const DelayedNode = ({ elem, ms = 50 }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsVisible(true);
+    }, ms);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  return isVisible ? elem : null;
+};
 
 const Suggestions = ({
   suggestions,
@@ -10,7 +23,7 @@ const Suggestions = ({
   fetching
 }) => {
   if (!!fetching) {
-    return <p>Fetching results...</p>;
+    return <DelayedNode elem={<p>Fetching results...</p>} />;
   }
 
   // we have suggestions, show them
@@ -32,7 +45,9 @@ const Suggestions = ({
 
   // no suggestions and searchVal is not empty
   if (searchVal !== '') {
-    return <p>Artist "{searchVal}" could not be found.</p>;
+    return (
+      <DelayedNode elem={<p>Artist "{searchVal}" could not be found.</p>} />
+    );
   }
 
   return null;

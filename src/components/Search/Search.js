@@ -67,65 +67,51 @@ const Search = ({ location }) => {
     setSuggestionsFetching(initialState.fetching);
   };
 
-  useEffect(
-    () => {
-      if (artist) {
-        setSearchVal(artist.name);
+  useEffect(() => {
+    if (artist) {
+      setSearchVal(artist.name);
 
-        setArtistFetching(true);
-        getSortedAlbumsByArtistId(artist.id)
-          .then(albums => {
-            setAlbums(albums);
-          })
-          .finally(() => setArtistFetching(false));
-      }
-    },
-    [artist]
-  );
+      setArtistFetching(true);
+      getSortedAlbumsByArtistId(artist.id)
+        .then(albums => {
+          setAlbums(albums);
+        })
+        .finally(() => setArtistFetching(false));
+    }
+  }, [artist]);
 
-  useEffect(
-    () => {
-      if (!location) return;
+  useEffect(() => {
+    if (!location) return;
 
-      if (location.state && location.state.reset) {
-        resetState();
-      }
+    if (location.state && location.state.reset) {
+      resetState();
+    }
 
-      ReactGA.pageview(location.pathname);
-    },
-    [location]
-  );
+    ReactGA.pageview(location.pathname);
+  }, [location]);
 
-  useEffect(
-    () => {
-      if (searchVal === '') {
-        setArtist(initialState.artist);
-        setSuggestions(initialState.suggestions);
+  useEffect(() => {
+    if (searchVal === '') {
+      setArtist(initialState.artist);
+      setSuggestions(initialState.suggestions);
 
-        return;
-      }
+      return;
+    }
 
-      if (location.pathname !== '/') {
-        setArtistFetching(true);
-        getArtist(searchVal)
-          .then(setArtist)
-          .finally(() => setArtistFetching(false));
-      }
+    if (location.pathname !== '/') {
+      setArtistFetching(true);
+      getArtist(searchVal)
+        .then(setArtist)
+        .finally(() => setArtistFetching(false));
+    }
 
-      // wait before setting fetching
-      const timeout = setTimeout(() => {
-        setSuggestionsFetching(true);
-      }, 500);
-
-      getSuggestionsWithVal(searchVal)
-        .then(setSuggestions)
-        .finally(() => {
-          clearTimeout(timeout);
-          setSuggestionsFetching(false);
-        });
-    },
-    [searchVal]
-  );
+    setSuggestionsFetching(true);
+    getSuggestionsWithVal(searchVal)
+      .then(setSuggestions)
+      .finally(() => {
+        setSuggestionsFetching(false);
+      });
+  }, [searchVal]);
 
   return (
     <div>

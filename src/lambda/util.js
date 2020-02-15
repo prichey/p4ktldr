@@ -1,14 +1,10 @@
-import AbortController from 'abort-controller';
-import fetch from 'isomorphic-unfetch';
-
-const abortController = new AbortController();
+import fetch from 'node-fetch';
 
 export const makeRequest = async url => {
   try {
-    const res = await fetch(url, { signal: abortController.signal })
+    const res = await fetch(url)
       .then(res => res.json())
       .catch(err => {
-        if (err.name === 'AbortError') return; // expected, suppress
         throw err;
       });
 
