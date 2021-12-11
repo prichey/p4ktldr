@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 import { Router, Redirect, navigate } from '@reach/router';
 import ReactGA from 'react-ga';
@@ -7,8 +7,16 @@ import Results from '../Results';
 import SearchForm from '../SearchForm';
 import Suggestions from '../Suggestions';
 
-import { getArtist, getSuggestionsWithVal } from './api';
-import { getSortedAlbumsByArtistId } from './utils';
+import { useSuggestions } from './hooks';
+
+import { getSearchFromPathname } from './utils';
+
+const initialState = {
+  searchVal: '',
+  artistId: undefined
+};
+
+const SearchContext = React.createContext(initialState);
 
 const StyledSearchLower = styled.div`
   margin: 20px 0;
@@ -24,64 +32,38 @@ const StyledSearchLower = styled.div`
   }
 `;
 
-const initialState = {
-  searchVal: '',
-  suggestions: [],
-  artist: null,
-  fetching: false,
-  albums: []
-};
-
 const Search = ({ location }) => {
   const [searchVal, setSearchVal] = useState(initialState.searchVal);
-  const [artist, setArtist] = useState(initialState.artist);
-  const [suggestions, setSuggestions] = useState(initialState.suggestions);
-  const [albums, setAlbums] = useState(initialState.albums);
-  const [artistFetching, setArtistFetching] = useState(initialState.fetching);
-  const [suggestionsFetching, setSuggestionsFetching] = useState(
-    initialState.fetching
-  );
+  const [artistId, setArtistId] = useState(null);
+
+  const { suggestions, isLoading } = useSuggestions(searchVal);
 
   const inputRef = useRef();
 
-  const handleFormSubmit = e => {
-    e.preventDefault();
+  const handleFormSubmit = useCallback(
+    e => {
+      e.preventDefault();
 
-    // follow the first suggestion
-    // (not sure if this is correct behavior,
-    // it just feels weird not to do anything on form submit)
-    if (suggestions && suggestions.length > 0) {
-      const suggestion = suggestions[0];
-      navigate(`/search/${suggestion.name}`);
-      setArtist(suggestion);
-      inputRef.current && inputRef.current.blur();
-    }
-  };
+      // follow the first suggestion
+      // (not sure if this is correct behavior,
+      // it just feels weird not to do anything on form submit)
+      if (suggestions && suggestions.length > 0) {
+        const suggestion = suggestions[0];
+        navigate(`/search/${suggestion.name}`);
+        setArtistId(suggestion.id);
+        inputRef.current && inputRef.current.blur();
+      }
+    },
+    [suggestions]
+  );
 
   const resetState = () => {
     setSearchVal(initialState.searchVal);
-    setArtist(initialState.artist);
-    setSuggestions(initialState.suggestions);
-    setAlbums(initialState.albums);
-    setArtistFetching(initialState.fetching);
-    setSuggestionsFetching(initialState.fetching);
+    setArtistId(initialState.artistId);
   };
 
   useEffect(() => {
-    if (artist) {
-      setSearchVal(artist.name);
-
-      setArtistFetching(true);
-      getSortedAlbumsByArtistId(artist.id)
-        .then(albums => {
-          setAlbums(albums);
-        })
-        .finally(() => setArtistFetching(false));
-    }
-  }, [artist]);
-
-  useEffect(() => {
-    if (!location) return;
+    if (!location || !location.pathname) return;
 
     if (location.state && location.state.reset) {
       resetState();
@@ -91,27 +73,13 @@ const Search = ({ location }) => {
   }, [location]);
 
   useEffect(() => {
-    if (searchVal === '') {
-      setArtist(initialState.artist);
-      setSuggestions(initialState.suggestions);
+    if (!location || !location.pathname) return;
 
-      return;
+    const search = getSearchFromPathname(location.pathname);
+    if (search && search !== searchVal) {
+      setSearchVal(search);
     }
-
-    if (location.pathname !== '/') {
-      setArtistFetching(true);
-      getArtist(searchVal)
-        .then(setArtist)
-        .finally(() => setArtistFetching(false));
-    }
-
-    setSuggestionsFetching(true);
-    getSuggestionsWithVal(searchVal)
-      .then(setSuggestions)
-      .finally(() => {
-        setSuggestionsFetching(false);
-      });
-  }, [searchVal]);
+  }, [location, searchVal]);
 
   return (
     <div>
@@ -128,27 +96,28 @@ const Search = ({ location }) => {
       />
 
       <StyledSearchLower>
-        <Router primary={false}>
-          <Suggestions
-            path="/"
-            suggestions={suggestions}
-            searchVal={searchVal}
-            setArtist={setArtist}
-            setSearchVal={setSearchVal}
-            fetching={suggestionsFetching}
-          />
-          <Results
-            path="/search/:searchArtist"
-            fetching={artistFetching}
-            setArtist={setArtist}
-            setSearchVal={setSearchVal}
-            albums={albums}
-          />
-          <Redirect default noThrow from="*" to="/" />
-        </Router>
+        <SearchContext.Provider
+          value={{
+            searchVal,
+            setSearchVal,
+            artistId,
+            setArtistId
+          }}
+        >
+          <Router primary={false}>
+            <Suggestions
+              path="/"
+              suggestions={suggestions}
+              isLoading={isLoading}
+            />
+            <Results path="/search/:searchArtist" suggestions={suggestions} />
+            <Redirect default noThrow from="*" to="/" />
+          </Router>
+        </SearchContext.Provider>
       </StyledSearchLower>
     </div>
   );
 };
 
+export { SearchContext };
 export default Search;

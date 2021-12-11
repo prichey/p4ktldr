@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 
 import Suggestion from './Suggestion';
+import { SearchContext } from './Search';
 
 const DelayedNode = ({ elem, ms = 50 }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -15,14 +16,10 @@ const DelayedNode = ({ elem, ms = 50 }) => {
   return isVisible ? elem : null;
 };
 
-const Suggestions = ({
-  suggestions,
-  searchVal,
-  setArtist,
-  setSearchVal,
-  fetching
-}) => {
-  if (!!fetching) {
+const Suggestions = ({ suggestions = [], isLoading = false }) => {
+  const { searchVal } = useContext(SearchContext);
+
+  if (isLoading) {
     return <DelayedNode elem={<p>Fetching results...</p>} />;
   }
 
@@ -30,14 +27,8 @@ const Suggestions = ({
   if (suggestions && suggestions.length > 0) {
     return (
       <ul>
-        {suggestions.map((suggestion, i) => (
-          <Suggestion
-            suggestion={suggestion}
-            key={suggestion.id}
-            index={i}
-            setArtist={setArtist}
-            setSearchVal={setSearchVal}
-          />
+        {suggestions.map(suggestion => (
+          <Suggestion suggestion={suggestion} key={suggestion.id} />
         ))}
       </ul>
     );
