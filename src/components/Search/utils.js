@@ -1,4 +1,4 @@
-import { round } from 'lodash';
+import { round, unescape } from 'lodash';
 import * as urlJoin from 'url-join';
 
 import { getAlbumsByArtistId } from './api';
@@ -9,6 +9,17 @@ export const hitIsNotTroll = ([hit, ...rest]) => {
   const bandIsJet = 'name' in hit && hit.name === 'Jet';
   const albumIsShineOn = 'title' in hit && hit.title === 'Shine On';
   return !(bandIsJet || albumIsShineOn);
+};
+
+export const getSearchFromPathname = str => {
+  if (typeof str === 'string') {
+    const search = str.split('/').filter(Boolean)[1];
+    if (search) {
+      return decodeURI(search);
+    }
+  }
+
+  return null;
 };
 
 const formatAlbumObj = (albumObj, url) => {
@@ -48,5 +59,9 @@ const formatAlbumList = list => {
 
 export const getSortedAlbumsByArtistId = async id => {
   const albums = await getAlbumsByArtistId(id);
+  return formatAlbumList(albums).sort((a, b) => b.rating - a.rating);
+};
+
+export const getSortedAlbums = (albums = []) => {
   return formatAlbumList(albums).sort((a, b) => b.rating - a.rating);
 };
