@@ -7,7 +7,7 @@ import Results from '../Results';
 import SearchForm from '../SearchForm';
 import Suggestions from '../Suggestions';
 
-import { useSuggestions } from './api';
+import { useSuggestions } from './hooks';
 
 import { getSearchFromPathname } from './utils';
 
@@ -32,27 +32,11 @@ const StyledSearchLower = styled.div`
   }
 `;
 
-// const initialState = {
-//   searchVal: '',
-//   suggestions: [],
-//   artist: null,
-//   fetching: false,
-//   albums: []
-// };
-
 const Search = ({ location }) => {
   const [searchVal, setSearchVal] = useState(initialState.searchVal);
   const [artistId, setArtistId] = useState(null);
 
   const { suggestions, isLoading } = useSuggestions(searchVal);
-
-  // const [artist, setArtist] = useState(initialState.artist);
-  // const [suggestions, setSuggestions] = useState(initialState.suggestions);
-  // const [albums, setAlbums] = useState(initialState.albums);
-  // const [artistFetching, setArtistFetching] = useState(initialState.fetching);
-  // const [suggestionsFetching, setSuggestionsFetching] = useState(
-  //   initialState.fetching
-  // );
 
   const inputRef = useRef();
 
@@ -97,29 +81,6 @@ const Search = ({ location }) => {
     }
   }, [location, searchVal]);
 
-  // useEffect(() => {
-  //   if (searchVal === '') {
-  //     setArtist(initialState.artist);
-  //     setSuggestions(initialState.suggestions);
-
-  //     return;
-  //   }
-
-  //   if (location.pathname !== '/') {
-  //     setArtistFetching(true);
-  //     getArtist(searchVal)
-  //       .then(setArtist)
-  //       .finally(() => setArtistFetching(false));
-  //   }
-
-  //   setSuggestionsFetching(true);
-  //   getSuggestionsWithVal(searchVal)
-  //     .then(setSuggestions)
-  //     .finally(() => {
-  //       setSuggestionsFetching(false);
-  //     });
-  // }, [searchVal]);
-
   return (
     <div>
       <SearchForm
@@ -148,17 +109,8 @@ const Search = ({ location }) => {
               path="/"
               suggestions={suggestions}
               isLoading={isLoading}
-              // setArtist={setArtist}
-              // fetching={suggestionsFetching}
             />
-            <Results
-              path="/search/:searchArtist"
-              suggestions={suggestions}
-              // fetching={artistFetching}
-              // setArtist={setArtist}
-              // setSearchVal={setSearchVal}
-              // albums={albums}
-            />
+            <Results path="/search/:searchArtist" suggestions={suggestions} />
             <Redirect default noThrow from="*" to="/" />
           </Router>
         </SearchContext.Provider>

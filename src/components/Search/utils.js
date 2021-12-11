@@ -1,7 +1,5 @@
-import { round, unescape } from 'lodash';
+import { round } from 'lodash';
 import * as urlJoin from 'url-join';
-
-import { getAlbumsByArtistId } from './api';
 
 export const hitIsNotTroll = ([hit, ...rest]) => {
   if (rest.length) return true; // troll responses have length 1
@@ -55,11 +53,6 @@ const formatAlbumList = list => {
   });
 
   return albums;
-};
-
-export const getSortedAlbumsByArtistId = async id => {
-  const albums = await getAlbumsByArtistId(id);
-  return formatAlbumList(albums).sort((a, b) => b.rating - a.rating);
 };
 
 export const getSortedAlbums = (albums = []) => {
