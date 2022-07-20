@@ -16,7 +16,7 @@
     "styled-components": "^5.3.3",
     "styled-normalize": "^8.0.7",
     "swr": "^1.1.1",
-    "terser": "3.14.1",
+    "terser": "4.8.1",
     "url-join": "^4.0.0"
   },
   "scripts": {
